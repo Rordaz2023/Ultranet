@@ -23,18 +23,94 @@
         .plan-card { transition: all 0.3s ease; }
         .plan-card.featured { transform: scale(1.05); z-index: 10; }
         @media (max-width: 768px) { .plan-card.featured { transform: scale(1); } }
+
+        /* ==========================================================================
+           EFECTOS PREMIUM PRELOADER ULTRANET
+           ========================================================================== */
+        
+        /* Animación de Zoom y Rotación Sutil de Entrada */
+        @keyframes ultraEntrance {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+                filter: brightness(0.5) drop-shadow(0 0 0px rgba(37, 99, 235, 0));
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+                filter: brightness(1.3) drop-shadow(0 0 30px rgba(37, 99, 235, 0.8));
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                filter: brightness(1.1) drop-shadow(0 0 20px rgba(37, 99, 235, 0.6));
+            }
+        }
+
+        /* Efecto Pulso Neón Eléctrico Continuo */
+        @keyframes neonGlow {
+            0%, 100% {
+                filter: brightness(1.1) drop-shadow(0 0 20px rgba(37, 99, 235, 0.6)) contrast(1.1);
+            }
+            50% {
+                filter: brightness(1.4) drop-shadow(0 0 45px rgba(37, 99, 235, 0.9)) contrast(1.2);
+            }
+        }
+
+        .ultra-preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* Fondo oscuro tecnológico profundo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+        }
+
+        .ultra-logo-container {
+            animation: ultraEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+            position: relative;
+            width: 16rem; /* 256px de ancho */
+            height: 16rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ultra-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: neonGlow 1.4s ease-in-out infinite alternate;
+            animation-delay: 0.8s; /* Inicia el pulso después de la entrada */
+        }
+
+        /* Ocultar el scrollbar de la página mientras carga */
+        body.loading {
+            overflow: hidden;
+        }
     </style>
 </head>
-<body class="bg-white text-gray-900 antialiased">
+<body class="bg-white text-gray-900 antialiased loading">
+
+    <!-- PANTALLA DE CARGA (PRELOADER) -->
+    <div id="preloader" class="ultra-preloader">
+        <div class="ultra-logo-container">
+            <!-- Usando la imagen ULTRA.jpg asignada como el elemento central -->
+            <img src="ULTRA.gif" alt="ULTRANET Energía" class="ultra-logo-img">
+        </div>
+    </div>
 
     <!-- Navigation -->
     <nav class="sticky-nav fixed w-full top-0 z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
-                    </div>
+                    <img src="UltraNet - Logo.png" alt="ULTRANET Logo" class="w-10 h-10 object-contain">
                     <div class="flex flex-col">
                         <span class="font-bold text-lg leading-tight">ULTRANET</span>
                         <span class="text-[10px] tracking-widest text-gray-500">R.D. · INTERNET</span>
@@ -92,15 +168,15 @@
 
                     <div class="flex gap-8 pt-4">
                         <div class="border-l-2 border-gray-300 pl-4">
-                            <div class="text-2xl font-bold">99.9%</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Uptime</div>
+                            <div class="text-2xl font-bold">100%</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tiempo de actividad</div>
                         </div>
                         <div class="border-l-2 border-gray-300 pl-4">
                             <div class="text-2xl font-bold">24/7</div>
                             <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Soporte</div>
                         </div>
                         <div class="border-l-2 border-gray-300 pl-4">
-                            <div class="text-2xl font-bold">24h</div>
+                            <div class="text-2xl font-bold">24H</div>
                             <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Instalación</div>
                         </div>
                     </div>
@@ -126,7 +202,6 @@
     <section id="planes" class="py-20 lg:py-32 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-16">
-                <div class="text-blue-600 font-bold text-sm tracking-widest uppercase mb-4">02 · Planes</div>
                 <h2 class="text-4xl lg:text-5xl font-black max-w-2xl leading-tight">Elige la velocidad que tu día necesita.</h2>
                 <p class="text-gray-600 mt-4 text-lg max-w-2xl">Todos los planes incluyen primer mes gratis, equipo y soporte técnico 24/7. Sin sorpresas, sin letra chica.</p>
             </div>
@@ -142,7 +217,7 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2">Plan Smart</h3>
                     <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-5xl font-black">$30</span>
+                        <span class="text-5xl font-black">35$</span>
                         <span class="text-gray-500">/ mes</span>
                     </div>
                     <ul class="space-y-4 mb-8">
@@ -182,7 +257,7 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2">Plan Hogar Full</h3>
                     <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-5xl font-black">$45</span>
+                        <span class="text-5xl font-black">50$</span>
                         <span class="text-gray-400">/ mes</span>
                     </div>
                     <ul class="space-y-4 mb-8">
@@ -266,7 +341,6 @@
 
                 <div class="space-y-8">
                     <div>
-                        <div class="text-blue-500 font-bold text-sm tracking-widest uppercase mb-4">03 · Instalación</div>
                         <h2 class="text-4xl lg:text-5xl font-black leading-tight">Un solo pago. Todo lo que necesitas para conectarte.</h2>
                     </div>
 
@@ -277,13 +351,13 @@
                     <div class="grid sm:grid-cols-2 gap-4">
                         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
                             <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Pago en Físico</div>
-                            <div class="text-4xl font-black mb-1">$140</div>
+                            <div class="text-4xl font-black mb-1">160$</div>
                             <div class="text-gray-500 text-sm mb-2">único pago</div>
                             <div class="text-gray-400 text-sm">Efectivo o transferencia local</div>
                         </div>
                         <div class="bg-blue-600 rounded-2xl p-6">
                             <div class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-2">Pago a Tasa BCV</div>
-                            <div class="text-4xl font-black mb-1">$170</div>
+                            <div class="text-4xl font-black mb-1">200$</div>
                             <div class="text-blue-200 text-sm mb-2">único pago</div>
                             <div class="text-blue-100 text-sm">Pago en Bs. al cambio oficial</div>
                         </div>
@@ -317,7 +391,6 @@
     <section class="py-20 lg:py-32 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-16">
-                <div class="text-blue-600 font-bold text-sm tracking-widest uppercase mb-4">04 · Por qué ULTRANET</div>
                 <h2 class="text-4xl lg:text-5xl font-black max-w-3xl leading-tight">Internet que aguanta cualquier jornada.</h2>
                 <p class="text-gray-600 mt-4 text-lg max-w-2xl">Construimos una red robusta para que dejes de pelear con tu WiFi y empieces a sacarle el jugo a tu tiempo en línea.</p>
             </div>
@@ -379,7 +452,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div class="order-2 lg:order-1">
-                    <div class="text-blue-600 font-bold text-sm tracking-widest uppercase mb-4">05 · Cobertura</div>
                     <h2 class="text-4xl lg:text-5xl font-black leading-tight mb-6">Cada vez más cerca de tu casa.</h2>
                     <p class="text-gray-600 text-lg mb-8">
                         Operamos en zonas urbanas y rurales gracias a nuestra red inalámbrica de alta capacidad. Si tu sector no aparece, escríbenos: estamos expandiendo cobertura cada mes.
@@ -395,7 +467,6 @@
                         <span class="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm">
                             <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> Ciudad Piar
                         </span>
-                        <!-- Extra placeholders from original structure -->
                         <span class="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm">
                             <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i> Zonas Aledañas
                         </span>
@@ -419,7 +490,6 @@
     <section class="py-20 lg:py-32 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-16">
-                <div class="text-blue-600 font-bold text-sm tracking-widest uppercase mb-4">06 · Clientes</div>
                 <h2 class="text-4xl lg:text-5xl font-black max-w-2xl leading-tight">Lo que dicen quienes ya están conectados.</h2>
             </div>
 
@@ -476,7 +546,6 @@
     <section id="faq" class="py-20 lg:py-32 bg-white">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <div class="text-blue-600 font-bold text-sm tracking-widest uppercase mb-4">07 · FAQ</div>
                 <h2 class="text-4xl font-black leading-tight">Preguntas Frecuentes</h2>
             </div>
 
@@ -520,9 +589,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-1 lg:col-span-2">
                     <div class="flex items-center gap-2 mb-6">
-                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                            <i data-lucide="zap" class="w-6 h-6 text-black"></i>
-                        </div>
+                        <img src="UltraNet - Logo.png" alt="ULTRANET Logo" class="w-12 h-12 object-contain">
                         <div class="flex flex-col">
                             <span class="font-bold text-2xl leading-tight">ULTRANET</span>
                             <span class="text-xs tracking-widest text-gray-400">R.D. · INTERNET</span>
@@ -599,6 +666,7 @@
                 
                 // Close all other items
                 document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('remove');
                     faq.classList.remove('active');
                 });
 
@@ -607,6 +675,23 @@
                     item.classList.add('active');
                 }
             });
+        });
+
+        // ==========================================================================
+        // LÓGICA DE CONTROL DEL PRELOADER
+        // ==========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            
+            // Espera exacta de 1.5 segundos (1500ms) antes de desvanecer
+            setTimeout(() => {
+                // Desvanecimiento suave mediante CSS transitions
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                
+                // Permitir el scroll de la página quitando la clase de bloqueo
+                document.body.classList.remove('loading');
+            }, 1500);
         });
     </script>
 </body>
