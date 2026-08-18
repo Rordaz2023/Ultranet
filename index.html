@@ -1,698 +1,883 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRANET R.D. - Internet de Alta Velocidad</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-text { background-clip: text; -webkit-background-clip: text; color: transparent; }
-        .hero-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
-        .blue-accent { color: #2563eb; }
-        .bg-blue-accent { background-color: #2563eb; }
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .faq-item.active .faq-content { max-height: 500px; }
-        .faq-item.active .faq-icon { transform: rotate(180deg); }
-        .faq-icon { transition: transform 0.3s ease; }
-        .sticky-nav { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-        .plan-card { transition: all 0.3s ease; }
-        .plan-card.featured { transform: scale(1.05); z-index: 10; }
-        @media (max-width: 768px) { .plan-card.featured { transform: scale(1); } }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page - UltraNet</title>
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-        /* ==========================================================================
-           EFECTOS PREMIUM PRELOADER ULTRANET
-           ========================================================================== */
-        
-        /* Animación de Zoom y Rotación Sutil de Entrada */
-        @keyframes ultraEntrance {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-                filter: brightness(0.5) drop-shadow(0 0 0px rgba(37, 99, 235, 0));
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 1;
-                filter: brightness(1.3) drop-shadow(0 0 30px rgba(37, 99, 235, 0.8));
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-                filter: brightness(1.1) drop-shadow(0 0 20px rgba(37, 99, 235, 0.6));
-            }
-        }
+    /* CONFIGURACIÓN SCROLL SNAP */
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
 
-        /* Efecto Pulso Neón Eléctrico Continuo */
-        @keyframes neonGlow {
-            0%, 100% {
-                filter: brightness(1.1) drop-shadow(0 0 20px rgba(37, 99, 235, 0.6)) contrast(1.1);
-            }
-            50% {
-                filter: brightness(1.4) drop-shadow(0 0 45px rgba(37, 99, 235, 0.9)) contrast(1.2);
-            }
-        }
+    body {
+      color: #ffffff;
+      background-color: #000000;
+      width: 100%;
+      height: 100vh;
+      overflow-y: scroll;
+    }
 
-        .ultra-preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff; /* Fondo oscuro tecnológico profundo */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
-        }
+    /* Snap a cada sección principal */
+    .hero, 
+    .plans-section, 
+    .resilient-section,
+    .travel-section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      width: 100%;
+      height: 100vh;
+    }
 
-        .ultra-logo-container {
-            animation: ultraEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
-            position: relative;
-            width: 16rem; /* 256px de ancho */
-            height: 16rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    /* BARRA DE NAVEGACIÓN */
+    .sticky-nav {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 100%;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      border: 1px solid transparent;
+      border-radius: 0px;
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: none;
+      transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 0.4s ease,
+                  backdrop-filter 0.4s ease,
+                  border-color 0.4s ease,
+                  border-radius 0.4s ease,
+                  padding 0.4s ease,
+                  box-shadow 0.4s ease;
+      will-change: transform, top, width, background-color;
+    }
 
-        .ultra-logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            animation: neonGlow 1.4s ease-in-out infinite alternate;
-            animation-delay: 0.8s; /* Inicia el pulso después de la entrada */
-        }
+    .sticky-nav.floating {
+      top: 1rem;
+      width: 90%;
+      max-width: 1200px;
+      background: rgba(20, 22, 28, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-color: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
 
-        /* Ocultar el scrollbar de la página mientras carga */
-        body.loading {
-            overflow: hidden;
-        }
-    </style>
+    .logo {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .nav-center {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-center a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-center a:hover {
+      color: #ffffff;
+    }
+
+    .nav-right-container {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .contact-phone {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .contact-phone:hover {
+      color: #ffffff;
+    }
+
+    .switch-toggle {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      padding: 2px;
+      display: flex;
+    }
+
+    .switch-btn {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      padding: 5px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .switch-btn.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    .btn-nav-primary {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .btn-nav-primary:hover {
+      background-color: #e5e7eb;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), 
+                  url('hola.jpg') no-repeat center center/cover;
+      display: flex;
+      align-items: flex-end;
+      padding: 6rem 5% 5rem 5%;
+    }
+
+    .hero-center-logo {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      max-width: 85vw;
+      height: auto;
+      pointer-events: none;
+      filter: drop-shadow(0 0 30px rgba(0, 162, 255, 0.4));
+    }
+
+    .hero-content {
+      max-width: 580px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      color: #d1d5db;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .price-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .price-amount {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-amount span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #9ca3af;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.8rem 2.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #ffffff;
+      color: #000000;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #e5e7eb;
+    }
+
+    .btn-secondary {
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* SECCIÓN DE PLANES */
+    .plans-section {
+      background-color: #000000;
+      background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.85) 100%), 
+                        url('illustration_07.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover; 
+      padding: 6rem 5% 2rem 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .tab-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tab-switch {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 6px;
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #a1a1aa;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: #27272a;
+      color: #ffffff;
+    }
+
+    .coverage-box {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+      background: rgba(18, 18, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid #27272a;
+      padding: 6px;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+
+    .coverage-box:focus-within {
+      border-color: #00a2ff;
+    }
+
+    .coverage-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: #ffffff;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .coverage-input::placeholder {
+      color: #71717a;
+    }
+
+    .btn-coverage-send {
+      background-color: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-coverage-send:hover {
+      background-color: #1ebc57;
+    }
+
+    .plans-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      max-width: 1200px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .plan-card {
+      background: rgba(10, 10, 12, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .plan-card:hover {
+      border-color: #00a2ff;
+      background: rgba(18, 18, 20, 0.9);
+      transform: translateY(-4px);
+    }
+
+    .plan-header {
+      margin-bottom: 0.8rem;
+    }
+
+    .plan-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .plan-description {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      line-height: 1.4;
+      margin-bottom: 1.2rem;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 1.2rem;
+    }
+
+    .plan-features li {
+      font-size: 0.82rem;
+      color: #e5e7eb;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .plan-features li::before {
+      content: "•";
+      color: #00a2ff;
+      font-weight: bold;
+      display: inline-block;
+      width: 1rem;
+      margin-right: 0.2rem;
+    }
+
+    .plan-footer {
+      border-top: 1px solid #27272a;
+      padding-top: 1rem;
+    }
+
+    .plan-price-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      color: #71717a;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.8rem;
+    }
+
+    .plan-price span {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #a1a1aa;
+    }
+
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      background-color: #25d366;
+      color: #ffffff;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #1ebc57;
+      transform: scale(1.02);
+    }
+
+    .btn-whatsapp svg, .btn-coverage-send svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .disclaimer {
+      margin-top: 1.8rem;
+      font-size: 0.7rem;
+      color: #71717a;
+      text-align: center;
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Sección Fiable y Resistente */
+    .resilient-section {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%),
+                  url('conect.png') no-repeat center center/cover;
+    }
+
+    .resilient-content {
+      max-width: 540px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .resilient-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .resilient-text {
+      font-size: clamp(0.9rem, 1.5vw, 1rem);
+      color: #d1d5db;
+      line-height: 1.6;
+      margin-bottom: 2.2rem;
+    }
+
+    .btn-info {
+      display: inline-block;
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-info:hover {
+      background-color: #e5e7eb;
+    }
+
+    /* SECCIÓN: INTERNET PARA VIAJES */
+    .travel-section {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 6rem 5% 0 5%;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%),
+                  url('car.webp') no-repeat center center/cover;
+    }
+
+    .travel-content {
+      max-width: 580px;
+      margin-top: auto;
+      margin-bottom: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .travel-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .travel-text {
+      font-size: clamp(0.85rem, 1.3vw, 0.95rem);
+      color: #d1d5db;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* ============================================= */
+    /* FOOTER ULTRA RESPONSIVE OPTIMIZADO */
+    /* ============================================= */
+    .site-footer {
+      width: 100%;
+      background: rgba(10, 10, 12, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      position: relative;
+      z-index: 2;
+      margin-top: auto;
+    }
+
+    .footer-text {
+      font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem 1.8rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+      color: #d1d5db;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* REGLAS RESPONSIVE GENERALES */
+    @media (max-width: 768px) {
+      html {
+        scroll-snap-type: none;
+      }
+      body, .hero, .plans-section, .resilient-section, .travel-section {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .hero-center-logo { width: 280px; top: 35%; }
+      .nav-center, .contact-phone { display: none; }
+      .cta-group { width: 100%; flex-direction: column; }
+      .btn { width: 100%; }
+      
+      .sticky-nav {
+        padding: 1rem 5%;
+      }
+      .sticky-nav.floating {
+        width: 95%;
+        padding: 0.6rem 1rem;
+        top: 0.5rem;
+      }
+
+      .coverage-box { flex-direction: column; }
+      .btn-coverage-send { justify-content: center; }
+
+      .resilient-section {
+        padding: 6rem 5% 4rem 5%;
+      }
+
+      .travel-section {
+        padding: 6rem 5% 0 5%;
+      }
+
+      /* AJUSTES ESPECÍFICOS DEL FOOTER EN MÓVIL */
+      .site-footer {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 1.5rem 5%;
+        gap: 1rem;
+      }
+
+      .footer-links {
+        justify-content: center;
+        gap: 0.8rem 1.2rem;
+      }
+    }
+  </style>
 </head>
-<body class="bg-white text-gray-900 antialiased loading">
+<body>
 
-    <!-- PANTALLA DE CARGA (PRELOADER) -->
-    <div id="preloader" class="ultra-preloader">
-        <div class="ultra-logo-container">
-            <!-- Usando la imagen ULTRA.jpg asignada como el elemento central -->
-            <img src="ULTRA.gif" alt="ULTRANET Energía" class="ultra-logo-img">
-        </div>
+  <!-- BARRA DE NAVEGACIÓN -->
+  <nav class="sticky-nav" id="mainNav">
+    <a href="#" class="logo">STARLINK</a>
+    <ul class="nav-center">
+      <li><a href="#planes">Residencial</a></li>
+      <li><a href="#planes">Corporativo</a></li>
+    </ul>
+    <div class="nav-right-container">
+      <a href="tel:04123334053" class="contact-phone">Atención al Cliente</a>
+      <div class="switch-toggle">
+        <button class="switch-btn active">Personal</button>
+        <button class="switch-btn">Negocio</button>
+      </div>
+      <a href="#planes" class="btn-nav-primary">Contratar</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="heroSection">
+    <img src="UltraNet - Black logo.jpg" alt="UltraNet Logo" class="hero-center-logo">
+    <div class="hero-content">
+      <h1 class="hero-title">Internet rápido y asequible</h1>
+      <p class="hero-subtitle">En determinadas zonas, no se requiere ningún coste inicial de hardware.</p>
+      <div class="price-tag">SERVICIO A PARTIR DE</div>
+      <div class="price-amount">$35 <span>/ Al mes</span></div>
+      <div class="cta-group">
+        <a href="#planes" class="btn btn-primary">Comience</a>
+        <a href="#planes" class="btn btn-secondary">Ver precios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Planes -->
+  <section class="plans-section" id="planes">
+    <div class="tab-container">
+      <div class="tab-switch">
+        <button class="tab-btn active">PLANES</button>
+      </div>
+      <div class="coverage-box">
+        <input type="text" id="addressInput" class="coverage-input" placeholder="Ingresa tu ciudad, sector o dirección..." />
+        <button onclick="consultarCobertura()" class="btn-coverage-send">
+          <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          CONSULTA DE COBERTURA
+        </button>
+      </div>
     </div>
 
-    <!-- Navigation -->
-    <nav class="sticky-nav fixed w-full top-0 z-50 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-2">
-                    <img src="UltraNet - Logo.png" alt="ULTRANET Logo" class="w-10 h-10 object-contain">
-                    <div class="flex flex-col">
-                        <span class="font-bold text-lg leading-tight">ULTRANET</span>
-                        <span class="text-[10px] tracking-widest text-gray-500">R.D. · INTERNET</span>
-                    </div>
-                </div>
-
-                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
-                    <a href="#planes" class="hover:text-blue-600 transition">Planes</a>
-                    <a href="#instalacion" class="hover:text-blue-600 transition">Instalación</a>
-                    <a href="#cobertura" class="hover:text-blue-600 transition">Cobertura</a>
-                    <a href="#faq" class="hover:text-blue-600 transition">FAQ</a>
-                    <a href="#contacto" class="hover:text-blue-600 transition">Contacto</a>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <span class="hidden sm:block text-sm font-medium"></span>
-                    <a href="https://wa.me/584249585665" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium transition flex items-center gap-2">
-                        <i data-lucide="message-circle" class="w-4 h-4"></i>
-                        WhatsApp
-                    </a>
-                </div>
-            </div>
+    <div class="plans-container">
+      <div class="plan-card">
+        <div>
+          <div class="plan-header">
+            <h2 class="plan-title">PLAN SMART – 15 MBPS</h2>
+            <p class="plan-description">Navega tranquilo al precio de siempre, pero con más velocidad.</p>
+          </div>
+          <ul class="plan-features">
+            <li>Navegación fluida</li>
+            <li>Velocidad mejorada</li>
+            <li>Ideal para el hogar</li>
+          </ul>
         </div>
-    </nav>
-
-    <!-- 01. Hero Section -->
-    <section class="hero-bg pt-32 pb-20 lg:pt-40 lg:pb-32 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
-                    <div class="inline-flex items-center gap-2 bg-black text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">
-                        <i data-lucide="sparkles" class="w-3 h-3"></i>
-                        Primer mes gratis
-                    </div>
-
-                    <h1 class="text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] tracking-tight">
-                        Velocidad sin límites para tu <span class="text-blue-600">hogar</span> y tu <span class="underline decoration-blue-600 decoration-4 underline-offset-4">negocio</span>.
-                    </h1>
-
-                    <p class="text-lg text-gray-600 max-w-xl leading-relaxed">
-                        ULTRANET R.D. te conecta con internet estable, baja latencia y soporte humano 24/7. Activación rápida, equipos incluidos y planes pensados para gamers, familias y profesionales.
-                    </p>
-
-                    <div class="flex flex-wrap gap-4">
-                        <a href="https://wa.me/584249585665" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 transition shadow-lg shadow-blue-600/30">
-                            <i data-lucide="message-circle" class="w-5 h-5"></i>
-                            Contratar por WhatsApp
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                        <a href="tel:04249585665" class="bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-900 px-8 py-4 rounded-full font-semibold flex items-center gap-2 transition">
-                            <i data-lucide="phone" class="w-5 h-5"></i>
-                            Llamar 0424-958.5665
-                        </a>
-                    </div>
-
-                    <div class="flex gap-8 pt-4">
-                        <div class="border-l-2 border-gray-300 pl-4">
-                            <div class="text-2xl font-bold">100%</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tiempo de actividad</div>
-                        </div>
-                        <div class="border-l-2 border-gray-300 pl-4">
-                            <div class="text-2xl font-bold">24/7</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Soporte</div>
-                        </div>
-                        <div class="border-l-2 border-gray-300 pl-4">
-                            <div class="text-2xl font-bold">24H</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Instalación</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative">
-                    <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl p-8 aspect-square flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=600&fit=crop" alt="Router Moderno" class="object-contain w-full h-full drop-shadow-2xl rounded-2xl">
-                        <div class="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg">
-                            <div class="flex items-center gap-2 mb-1">
-                                <i data-lucide="star" class="w-4 h-4 text-blue-600 fill-blue-600"></i>
-                                <span class="text-xs font-bold uppercase tracking-wider">Promo Activa</span>
-                            </div>
-                            <div class="text-sm font-bold">¡Primer mes <span class="text-blue-600">gratis!</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="plan-footer">
+          <div class="plan-price-label">SERVICIO A PARTIR DE</div>
+          <div class="plan-price">$35<span> / Al mes</span></div>
+          <a href="https://wa.me/584123334053?text=Hola,%20estoy%20interesado%20en%20el%20Plan%20Smart%20%E2%80%93%2015%20Mbps%20de%20$35/mes." target="_blank" class="btn-whatsapp">
+            <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Contratar por WhatsApp
+          </a>
         </div>
-    </section>
+      </div>
 
-    <!-- 02. Planes Section -->
-    <section id="planes" class="py-20 lg:py-32 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16">
-                <h2 class="text-4xl lg:text-5xl font-black max-w-2xl leading-tight">Elige la velocidad que tu día necesita.</h2>
-                <p class="text-gray-600 mt-4 text-lg max-w-2xl">Todos los planes incluyen primer mes gratis, equipo y soporte técnico 24/7. Sin sorpresas, sin letra chica.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8 items-center">
-                <!-- Plan Smart -->
-                <div class="plan-card bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl border border-gray-100">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="wifi" class="w-6 h-6 text-blue-600"></i>
-                        </div>
-                        <span class="text-sm font-bold text-gray-400">15 MBPS</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Plan Smart</h3>
-                    <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-5xl font-black">35$</span>
-                        <span class="text-gray-500">/ mes</span>
-                    </div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Navegación fluida
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Redes sociales y video
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Streaming en HD
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Ideal para 1-3 dispositivos
-                        </li>
-                    </ul>
-                    <a href="https://wa.me/584249585665?text=Hola,%20quiero%20contratar%20el%20Plan%20Smart%20de%2015%20MBPS" target="_blank" class="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-gray-800 transition flex items-center justify-center gap-2">
-                        <i data-lucide="message-circle" class="w-4 h-4"></i>
-                        Contratar este plan
-                    </a>
-                </div>
-
-                <!-- Plan Hogar Full (Featured) -->
-                <div class="plan-card featured bg-black rounded-3xl p-8 shadow-2xl text-white relative">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                        Más Popular
-                    </div>
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-12 h-12 bg-gray-800 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="home" class="w-6 h-6 text-white"></i>
-                        </div>
-                        <span class="text-sm font-bold text-gray-400">25 MBPS</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Plan Hogar Full</h3>
-                    <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-5xl font-black">50$</span>
-                        <span class="text-gray-400">/ mes</span>
-                    </div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-500 flex-shrink-0"></i>
-                            Streaming 4K sin cortes
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-500 flex-shrink-0"></i>
-                            Teletrabajo y videollamadas
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-500 flex-shrink-0"></i>
-                            Múltiples dispositivos
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-blue-500 flex-shrink-0"></i>
-                            Mejor relación valor / velocidad
-                        </li>
-                    </ul>
-                    <a href="https://wa.me/584249585665?text=Hola,%20quiero%20contratar%20el%20Plan%20Hogar%20Full%20de%2025%20MBPS" target="_blank" class="w-full bg-white text-black py-4 rounded-full font-semibold hover:bg-gray-100 transition flex items-center justify-center gap-2">
-                        <i data-lucide="message-circle" class="w-4 h-4"></i>
-                        Contratar este plan
-                    </a>
-                </div>
-
-                <!-- Plan Gamer -->
-                <div class="plan-card bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl border border-gray-100">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="gamepad-2" class="w-6 h-6 text-blue-600"></i>
-                        </div>
-                        <span class="text-sm font-bold text-gray-400">50 MBPS</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Plan Gamer</h3>
-                    <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-5xl font-black">$70</span>
-                        <span class="text-gray-500">/ mes</span>
-                    </div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Baja latencia para gaming
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Descargas ultra rápidas
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Streaming y cloud gaming
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-600">
-                            <i data-lucide="check" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
-                            Prioridad en la red
-                        </li>
-                    </ul>
-                    <a href="https://wa.me/584249585665?text=Hola,%20quiero%20contratar%20el%20Plan%20Gamer%20de%2050%20MBPS" target="_blank" class="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-gray-800 transition flex items-center justify-center gap-2">
-                        <i data-lucide="message-circle" class="w-4 h-4"></i>
-                        Contratar este plan
-                    </a>
-                </div>
-            </div>
-
-            <p class="text-center text-gray-500 text-sm mt-12">* Precios en USD. Pago en físico o vía BCV. El servicio se activa una vez completada la instalación.</p>
+      <div class="plan-card">
+        <div>
+          <div class="plan-header">
+            <h2 class="plan-title">PLAN FULL HOGAR – 25 MBPS</h2>
+            <p class="plan-description">Perfecto para familias, Netflix y tareas.</p>
+          </div>
+          <ul class="plan-features">
+            <li>Múltiples dispositivos</li>
+            <li>Streaming en HD / Netflix</li>
+            <li>Teletrabajo y clases en línea</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- 03. Instalación Section -->
-    <section id="instalacion" class="py-20 lg:py-32 bg-[#0a0a0a] text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="relative">
-                    <div class="bg-gray-100 rounded-3xl overflow-hidden aspect-[4/3]">
-                        <img src="02.png" alt="Kit de instalación" class="w-full h-full object-cover">
-                        <div class="absolute top-6 left-6 bg-white text-black px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider">
-                            Kit Incluido
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div>
-                        <h2 class="text-4xl lg:text-5xl font-black leading-tight">Un solo pago. Todo lo que necesitas para conectarte.</h2>
-                    </div>
-
-                    <p class="text-gray-400 text-lg">
-                        Nuestro equipo técnico llega a tu casa o negocio, instala, configura y deja todo funcionando. Sin costos ocultos, sin sorpresas.
-                    </p>
-
-                    <div class="grid sm:grid-cols-2 gap-4">
-                        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-                            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Pago en Físico</div>
-                            <div class="text-4xl font-black mb-1">160$</div>
-                            <div class="text-gray-500 text-sm mb-2">único pago</div>
-                            <div class="text-gray-400 text-sm">Efectivo o transferencia local</div>
-                        </div>
-                        <div class="bg-blue-600 rounded-2xl p-6">
-                            <div class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-2">Pago a Tasa BCV</div>
-                            <div class="text-4xl font-black mb-1">200$</div>
-                            <div class="text-blue-200 text-sm mb-2">único pago</div>
-                            <div class="text-blue-100 text-sm">Pago en Bs. al cambio oficial</div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap gap-3">
-                        <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 px-4 py-3 rounded-xl">
-                            <i data-lucide="radio" class="w-5 h-5 text-gray-400"></i>
-                            <span class="text-sm font-medium">Antena receptora</span>
-                        </div>
-                        <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 px-4 py-3 rounded-xl">
-                            <i data-lucide="router" class="w-5 h-5 text-gray-400"></i>
-                            <span class="text-sm font-medium">Router Wi-Fi</span>
-                        </div>
-                        <div class="flex items-center gap-2 bg-gray-900 border border-gray-800 px-4 py-3 rounded-xl">
-                            <i data-lucide="cable" class="w-5 h-5 text-gray-400"></i>
-                            <span class="text-sm font-medium">15 m de cable de red</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-2 text-blue-400">
-                        <i data-lucide="check-circle" class="w-5 h-5"></i>
-                        <span class="font-medium">¡Primer mes de servicio totalmente gratis!</span>
-                    </div>
-                </div>
-            </div>
+        <div class="plan-footer">
+          <div class="plan-price-label">SERVICIO A PARTIR DE</div>
+          <div class="plan-price">$50<span> / Al mes</span></div>
+          <a href="https://wa.me/584123334053?text=Hola,%20estoy%20interesado%20en%20el%20Plan%20Full%20Hogar%20%E2%80%93%2025%20Mbps%20de%20$50/mes." target="_blank" class="btn-whatsapp">
+            <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Contratar por WhatsApp
+          </a>
         </div>
-    </section>
+      </div>
 
-    <!-- 04. Por qué ULTRANET -->
-    <section class="py-20 lg:py-32 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16">
-                <h2 class="text-4xl lg:text-5xl font-black max-w-3xl leading-tight">Internet que aguanta cualquier jornada.</h2>
-                <p class="text-gray-600 mt-4 text-lg max-w-2xl">Construimos una red robusta para que dejes de pelear con tu WiFi y empieces a sacarle el jugo a tu tiempo en línea.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-8 rounded-3xl hover-lift border border-gray-100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                        <i data-lucide="zap" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Conexión simétrica estable</h3>
-                    <p class="text-gray-600 leading-relaxed">Velocidad real y constante, optimizada para gaming, streaming y trabajo remoto.</p>
-                </div>
-
-                <div class="bg-white p-8 rounded-3xl hover-lift border border-gray-100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                        <i data-lucide="shield-check" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Red protegida</h3>
-                    <p class="text-gray-600 leading-relaxed">Infraestructura monitoreada 24/7 con protección DDoS y reinicio remoto.</p>
-                </div>
-
-                <div class="bg-white p-8 rounded-3xl hover-lift border border-gray-100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                        <i data-lucide="headphones" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Soporte humano 24/7</h3>
-                    <p class="text-gray-600 leading-relaxed">Atención por WhatsApp, llamada y visita técnica cuando lo necesites.</p>
-                </div>
-
-                <div class="bg-white p-8 rounded-3xl hover-lift border border-gray-100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                        <i data-lucide="gauge" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Baja latencia</h3>
-                    <p class="text-gray-600 leading-relaxed">Rutas optimizadas para Fortnite, Valorant, COD, FIFA y plataformas en la nube.</p>
-                </div>
-
-                <div class="bg-white p-8 rounded-3xl hover-lift border border-gray-100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                        <i data-lucide="users" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Multidispositivo</h3>
-                    <p class="text-gray-600 leading-relaxed">Conecta celulares, TVs, consolas, cámaras y oficina sin perder velocidad.</p>
-                </div>
-
-                <div class="bg-white p-8 rounded-3xl hover-lift border border-gray-100">
-                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                        <i data-lucide="clock" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Instalación 24h</h3>
-                    <p class="text-gray-600 leading-relaxed">Activamos tu servicio en menos de 24 horas en zonas con cobertura.</p>
-                </div>
-            </div>
+      <div class="plan-card">
+        <div>
+          <div class="plan-header">
+            <h2 class="plan-title">PLAN GAMER / PRO – 50 MBPS</h2>
+            <p class="plan-description">Para los que no aceptan menos que lo mejor.</p>
+          </div>
+          <ul class="plan-features">
+            <li>Baja latencia para Gaming</li>
+            <li>Streaming en 4K</li>
+            <li>Máxima velocidad y estabilidad</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- 05. Cobertura -->
-    <section id="cobertura" class="py-20 lg:py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="order-2 lg:order-1">
-                    <h2 class="text-4xl lg:text-5xl font-black leading-tight mb-6">Cada vez más cerca de tu casa.</h2>
-                    <p class="text-gray-600 text-lg mb-8">
-                        Operamos en zonas urbanas y rurales gracias a nuestra red inalámbrica de alta capacidad. Si tu sector no aparece, escríbenos: estamos expandiendo cobertura cada mes.
-                    </p>
-
-                    <div class="flex flex-wrap gap-3 mb-8">
-                        <span class="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> Puerto Ordaz
-                        </span>
-                        <span class="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> San Félix
-                        </span>
-                        <span class="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> Ciudad Piar
-                        </span>
-                        <span class="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full text-sm">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i> Zonas Aledañas
-                        </span>
-                    </div>
-
-                    <a href="https://wa.me/584249585665?text=Hola,%20quisiera%20consultar%20si%20tienen%20cobertura%20en%20mi%20zona" target="_blank" class="inline-block bg-black text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition">
-                        Consultar mi zona
-                    </a>
-                </div>
-
-                <div class="order-1 lg:order-2">
-                    <div class="rounded-3xl overflow-hidden shadow-2xl">
-                        <img src="03.jpg" alt="Personas usando internet" class="w-full h-full object-cover">
-                    </div>
-                </div>
-            </div>
+        <div class="plan-footer">
+          <div class="plan-price-label">SERVICIO A PARTIR DE</div>
+          <div class="plan-price">$70<span> / Al mes</span></div>
+          <a href="https://wa.me/584123334053?text=Hola,%20estoy%20interesado%20en%20el%20Plan%20Gamer%20/%20Pro%20%E2%80%93%2050%20Mbps%20de%20$70/mes." target="_blank" class="btn-whatsapp">
+            <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Contratar por WhatsApp
+          </a>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- 06. Clientes -->
-    <section class="py-20 lg:py-32 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16">
-                <h2 class="text-4xl lg:text-5xl font-black max-w-2xl leading-tight">Lo que dicen quienes ya están conectados.</h2>
-            </div>
+    <p class="disclaimer">
+      Las velocidades indicadas son las máximas disponibles y pueden variar según congestión del tráfico o zona.
+    </p>
+  </section>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                    <div class="flex gap-1 mb-6">
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                    </div>
-                    <p class="text-gray-700 text-lg mb-8 leading-relaxed">"Cambié 3 proveedores antes de ULTRANET. Ahora hago videollamadas todo el día sin un solo corte."</p>
-                    <div>
-                        <div class="font-bold">Laura M.</div>
-                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Diseñadora · Puerto Ordaz</div>
-                    </div>
-                </div>
+  <!-- Sección: Fiable y Resistente -->
+  <section class="resilient-section">
+    <div class="resilient-content">
+      <h2 class="resilient-title">Fiable y resistente</h2>
+      <p class="resilient-text">
+        Las condiciones climáticas extremas pueden causar interrupciones importantes en las redes de internet tradicionales. Starlink está diseñado para derretir la nieve y resistir el aguanieve, las lluvias intensas y los vientos fuertes, manteniéndote conectado con un servicio confiable y de alta velocidad cuando más lo necesitas.
+      </p>
+      <a href="#planes" class="btn-info">Más información</a>
+    </div>
+  </section>
 
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                    <div class="flex gap-1 mb-6">
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                    </div>
-                    <p class="text-gray-700 text-lg mb-8 leading-relaxed">"Ping estable en Valorant y Warzone. La instalación fue rapidísima y el soporte responde al toque."</p>
-                    <div>
-                        <div class="font-bold">Carlos R.</div>
-                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Gamer · San Félix</div>
-                    </div>
-                </div>
+  <!-- Sección: Internet para viajes -->
+  <section class="travel-section">
+    <div class="travel-content">
+      <h2 class="travel-title">
+        Internet para viajes,<br>
+        excursiones por<br>
+        carretera y<br>
+        desplazamientos<br>
+        diarios.
+      </h2>
+      <p class="travel-text">
+        Internet de alta velocidad que te acompaña a todas partes, incluso en zonas sin cobertura. Uso en movimiento disponible en áreas seleccionadas.
+      </p>
+      <a href="#planes" class="btn-info">Más información</a>
+    </div>
 
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                    <div class="flex gap-1 mb-6">
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                        <i data-lucide="star" class="w-5 h-5 text-blue-600 fill-blue-600"></i>
-                    </div>
-                    <p class="text-gray-700 text-lg mb-8 leading-relaxed">"Cuatro celulares, dos TVs y el PC del trabajo. Todo conectado al mismo tiempo y nadie se queja. ¡Excelente servicio!"</p>
-                    <div>
-                        <div class="font-bold">Familia Gómez</div>
-                        <div class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Hogar · Ciudad Piar</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 07. FAQ -->
-    <section id="faq" class="py-20 lg:py-32 bg-white">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-black leading-tight">Preguntas Frecuentes</h2>
-            </div>
-
-            <div class="space-y-4">
-                <div class="faq-item bg-gray-50 rounded-2xl border border-gray-100">
-                    <button class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
-                        <span class="font-semibold text-lg">¿Cuánto tarda la instalación?</span>
-                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i>
-                    </button>
-                    <div class="faq-content px-6">
-                        <p class="pb-5 text-gray-600">Una vez confirmada la cobertura y el pago de la instalación, nuestro equipo técnico realizará el trabajo en un máximo de 24 horas.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item bg-gray-50 rounded-2xl border border-gray-100">
-                    <button class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
-                        <span class="font-semibold text-lg">¿Los equipos son míos?</span>
-                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i>
-                    </button>
-                    <div class="faq-content px-6">
-                        <p class="pb-5 text-gray-600">Los equipos (antena y router) se entregan en calidad de comodato mientras mantengas el servicio activo con nosotros. En caso de cancelar, los retiraremos.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item bg-gray-50 rounded-2xl border border-gray-100">
-                    <button class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
-                        <span class="font-semibold text-lg">¿Qué métodos de pago aceptan?</span>
-                        <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i>
-                    </button>
-                    <div class="faq-content px-6">
-                        <p class="pb-5 text-gray-600">Aceptamos efectivo (divisas), transferencias bancarias nacionales, pago móvil y plataformas digitales (consultar por WhatsApp).</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 08. Contacto y Footer -->
-    <footer id="contacto" class="bg-gray-900 text-white pt-20 pb-10 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                <div class="col-span-1 lg:col-span-2">
-                    <div class="flex items-center gap-2 mb-6">
-                        <img src="UltraNet - Logo.png" alt="ULTRANET Logo" class="w-12 h-12 object-contain">
-                        <div class="flex flex-col">
-                            <span class="font-bold text-2xl leading-tight">ULTRANET</span>
-                            <span class="text-xs tracking-widest text-gray-400">R.D. · INTERNET</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 max-w-sm mb-6">
-                        La conexión que mereces. Velocidad, estabilidad y soporte local que sí responde.
-                    </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6">Contacto</h4>
-                    <ul class="space-y-4">
-                        <li>
-                            <a href="https://wa.me/584249585665" class="flex items-center gap-3 text-gray-400 hover:text-white transition">
-                                <i data-lucide="message-circle" class="w-5 h-5"></i>
-                                WhatsApp: +58 424-9585665
-                            </a>
-                        </li>
-                        <li>
-                            <a href="tel:04249585665" class="flex items-center gap-3 text-gray-400 hover:text-white transition">
-                                <i data-lucide="phone" class="w-5 h-5"></i>
-                                Llamadas: 0424-958.5665
-                            </a>
-                        </li>
-                        <li>
-                            <div class="flex items-start gap-3 text-gray-400">
-                                <i data-lucide="map-pin" class="w-5 h-5 shrink-0 mt-1"></i>
-                                <span>Puerto Ordaz, Estado Bolívar.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6">Enlaces Rápidos</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#planes" class="text-gray-400 hover:text-white transition">Planes</a></li>
-                        <li><a href="#instalacion" class="text-gray-400 hover:text-white transition">Instalación</a></li>
-                        <li><a href="#cobertura" class="text-gray-400 hover:text-white transition">Áreas de Cobertura</a></li>
-                        <li><a href="#faq" class="text-gray-400 hover:text-white transition">Preguntas Frecuentes</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p class="text-gray-500 text-sm">© 2026 ULTRANET R.D. Todos los derechos reservados.</p>
-                <div class="flex gap-6 text-sm text-gray-500">
-                    <a href="#" class="hover:text-white transition">Términos de Servicio</a>
-                    <a href="#" class="hover:text-white transition">Políticas de Privacidad</a>
-                </div>
-            </div>
-        </div>
+    <!-- BARRA FOOTER RESPONSIVE -->
+    <footer class="site-footer">
+      <div class="footer-text">
+        &copy; UltraNet / Starlink. Todos los derechos reservados.
+      </div>
+      <ul class="footer-links">
+        <li><a href="#planes">Privacidad</a></li>
+        <li><a href="#planes">Términos de Servicio</a></li>
+        <li><a href="#planes">Contacto</a></li>
+      </ul>
     </footer>
+  </section>
 
-    <!-- Scripts -->
-    <script>
-        // Inicializar iconos
-        lucide.createIcons();
+  <!-- JavaScript -->
+  <script>
+    function consultarCobertura() {
+      const direccion = document.getElementById('addressInput').value.trim();
+      let mensaje = "Hola, quisiera consultar si tienen cobertura de internet en mi zona.";
+      if (direccion !== "") {
+        mensaje = `Hola, quisiera consultar si tienen cobertura de internet en la siguiente dirección: ${direccion}`;
+      }
+      const url = `https://wa.me/584123334053?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
 
-        // FAQ Toggle Logic
-        document.querySelectorAll('.faq-item button').forEach(button => {
-            button.addEventListener('click', () => {
-                const item = button.closest('.faq-item');
-                const isActived = item.classList.contains('active');
-                
-                // Close all other items
-                document.querySelectorAll('.faq-item').forEach(faq => {
-                    faq.classList.remove('remove');
-                    faq.classList.remove('active');
-                });
+    const mainNav = document.getElementById('mainNav');
+    const heroSection = document.getElementById('heroSection');
 
-                // Toggle current item
-                if (!isActived) {
-                    item.classList.add('active');
-                }
-            });
-        });
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          mainNav.classList.remove('floating');
+        } else {
+          mainNav.classList.add('floating');
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.15
+    });
 
-        // ==========================================================================
-        // LÓGICA DE CONTROL DEL PRELOADER
-        // ==========================================================================
-        window.addEventListener('DOMContentLoaded', () => {
-            const preloader = document.getElementById('preloader');
-            
-            // Espera exacta de 1.5 segundos (1500ms) antes de desvanecer
-            setTimeout(() => {
-                // Desvanecimiento suave mediante CSS transitions
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-                
-                // Permitir el scroll de la página quitando la clase de bloqueo
-                document.body.classList.remove('loading');
-            }, 1500);
-        });
-    </script>
+    heroObserver.observe(heroSection);
+  </script>
+
 </body>
 </html>
